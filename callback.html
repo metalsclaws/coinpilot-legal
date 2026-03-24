@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TikTok Auth — Coinpilot</title>
+<style>
+  body { font-family: -apple-system, sans-serif; max-width: 560px; margin: 80px auto; padding: 0 24px; text-align: center; background: #0f172a; color: #f8fafc; }
+  h2 { font-size: 1.6rem; margin-bottom: 8px; }
+  .code-box { background: #1e293b; border: 1px solid #22d3ee44; border-radius: 12px; padding: 20px 24px; margin: 28px 0; font-family: monospace; font-size: 0.85rem; color: #22d3ee; word-break: break-all; text-align: left; }
+  .label { font-size: 0.8rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; }
+  button { background: #22d3ee; color: #0f172a; border: none; border-radius: 8px; padding: 12px 28px; font-size: 1rem; font-weight: 700; cursor: pointer; margin-top: 8px; }
+  button:active { opacity: 0.8; }
+  .sub { color: #64748b; font-size: 0.9rem; margin-top: 20px; }
+  .error { color: #ef4444; }
+</style>
+</head>
+<body>
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const code = params.get('code');
+  const error = params.get('error');
+
+  if (error) {
+    document.write('<h2 class="error">❌ Authorisation Denied</h2><p>' + error + '</p>');
+  } else if (code) {
+    document.write(`
+      <h2>✅ Authorised!</h2>
+      <p>Copy the code below and paste it into your terminal.</p>
+      <div class="code-box">
+        <div class="label">Auth Code</div>
+        <div id="code">${code}</div>
+      </div>
+      <button onclick="navigator.clipboard.writeText('${code}').then(()=>this.textContent='Copied!')">Copy Code</button>
+      <p class="sub">You can close this tab once you've copied the code.</p>
+    `);
+  } else {
+    document.write('<h2 class="error">No code found</h2><p>Something went wrong. Try again.</p>');
+  }
+</script>
+</body>
+</html>
